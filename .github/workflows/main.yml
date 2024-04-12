@@ -36,6 +36,5 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: package
-        path: |
-          build/web
+        path: build/web
         if-no-files-found: error
