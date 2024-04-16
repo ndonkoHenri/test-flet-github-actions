@@ -1,23 +1,23 @@
-name: Web Build
+name: Flet Web Build
 
 on:
   push:
     branches:
-      - main
+      - master
       - dev
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: macos-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up Python 3.11.6
+    - name: Set up Python 3.12.2
       uses: actions/setup-python@v2
       with:
-        python-version: 3.11.6
+        python-version: 3.12.2
 
     - name: Install dependencies
       run: |
@@ -29,19 +29,12 @@ jobs:
       with:
         flutter-version: '3.19.0'
 
-    - name: Build with Flet
-      run: |
-        flet build web
+    - name: Web Build
+      run: flet build web
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: package
-        path: |
-          build/
-          dist/
-          bin/
-          lib/
-          include/
-          src/
+        name: web-build
+        path: build/web
         if-no-files-found: error
