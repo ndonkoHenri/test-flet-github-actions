@@ -30,11 +30,11 @@ jobs:
         flutter-version: '3.19.0'
 
     - name: Web Build
-      run: flet build web -vv
+      run: flet build web
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: package
+        name: web-build
         path: build/web
         if-no-files-found: error
