@@ -52,9 +52,8 @@ jobs:
 
     - name: Flet Web Build
       run: |
-            # GITHUB_REPOSITORY={{github.repository}}
-            echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}, user: ${GITHUB_REPOSITORY%/*}, project_url: ${GITHUB_REPOSITORY#*/}"
-            flet build web --base-url test-flet-gh --route-url-strategy hash
+            echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}, USER: ${GITHUB_REPOSITORY%/*}, PROJECT_BASE_URL: ${GITHUB_REPOSITORY#*/}"
+            flet build web --base-url ${GITHUB_REPOSITORY#*/} --route-url-strategy hash
 
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v4.3.2
