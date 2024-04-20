@@ -1,11 +1,16 @@
 name: Web App Build And Deploy
 
 on:
-  # Runs on pushes on the below branch/es
+  # Runs on pushes on the below branches
   push:
-    branches:
+    branches: 
       - master
-      #- host-gh-action
+      - main
+  # Runs on pull request events that target the below branches
+  pull_request:
+    branches: 
+      - master
+      - main
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -46,7 +51,10 @@ jobs:
         flutter-version: '3.19.0'
 
     - name: Flet Web Build
-      run: flet build web --base-url test-flet-gh --route-url-strategy hash
+      run: |
+            # GITHUB_REPOSITORY={{github.repository}}
+            echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}, user: ${GITHUB_REPOSITORY%/*}, project_url: ${GITHUB_REPOSITORY#*/}"
+            flet build web --base-url test-flet-gh --route-url-strategy hash
 
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v4.3.2
@@ -69,10 +77,9 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
       - name: Setup Pages
         uses: actions/configure-pages@v5
-      - name: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages 🚀
         id: deployment
         uses: actions/deploy-pages@v4.0.5
+        if: github.event_name == 'push'  # deploy only on push to main/master branch
