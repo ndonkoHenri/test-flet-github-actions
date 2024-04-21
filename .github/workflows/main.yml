@@ -47,7 +47,7 @@ jobs:
     - name: Flet Web Build
       run: |
             echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}, USER: ${GITHUB_REPOSITORY%/*}, PROJECT_BASE_URL: ${GITHUB_REPOSITORY#*/}"
-            flet build web --base-url ${GITHUB_REPOSITORY#*/} --route-url-strategy hash
+            flet build web --base-url ${GITHUB_REPOSITORY#*/} --route-url-strategy hash --flutter-build-args=--web-renderer --flutter-build-args=skwasm 
 
     - name: Upload GitHub Pages Artifact
       uses: actions/upload-pages-artifact@v3
