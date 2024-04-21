@@ -42,12 +42,15 @@ jobs:
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.19.0'
+        flutter-version: 3.19.0
+        channel: beta
 
     - name: Flet Web Build
       run: |
             echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}, USER: ${GITHUB_REPOSITORY%/*}, PROJECT_BASE_URL: ${GITHUB_REPOSITORY#*/}"
-            flet build web --base-url ${GITHUB_REPOSITORY#*/} --route-url-strategy hash --flutter-build-args=--web-renderer --flutter-build-args=skwasm 
+            flutter --version
+            flutter build web --help
+            flet build web --base-url ${GITHUB_REPOSITORY#*/} --route-url-strategy hash --flutter-build-args=--wasm
 
     - name: Upload GitHub Pages Artifact
       uses: actions/upload-pages-artifact@v3
