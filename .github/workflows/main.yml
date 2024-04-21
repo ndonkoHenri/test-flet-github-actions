@@ -50,7 +50,7 @@ jobs:
             echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}, USER: ${GITHUB_REPOSITORY%/*}, PROJECT_BASE_URL: ${GITHUB_REPOSITORY#*/}"
             flutter --version
             flutter build web --help
-            flet build web --base-url ${GITHUB_REPOSITORY#*/} --route-url-strategy hash --flutter-build-args=--wasm
+            flet build web --base-url ${GITHUB_REPOSITORY#*/} --route-url-strategy hash --no-web-splash --flutter-build-args=--wasm
 
     - name: Upload GitHub Pages Artifact
       uses: actions/upload-pages-artifact@v3
