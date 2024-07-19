@@ -13,12 +13,6 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
   
 jobs:
   build:
@@ -53,7 +47,7 @@ jobs:
       run: |
             echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}, USER: ${GITHUB_REPOSITORY%/*}, PROJECT_BASE_URL: ${GITHUB_REPOSITORY#*/}"
             flutter config --no-analytics # disable fluttter analytics
-            flet build apk #--product ${GITHUB_REPOSITORY#*/}
+            flet build apk --v --product apktest
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4.3.4
