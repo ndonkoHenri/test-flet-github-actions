@@ -41,17 +41,26 @@ jobs:
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: '3.19.0'
+        flutter-version: '3.22.2'
+        
+    - name: Setup Java JDK
+      uses: actions/setup-java@v4.2.1
+      with:
+        distribution: 'temurin' # See 'Supported distributions' for available options
+        java-version: '21'
 
-    - name: Flet Build Web
+    - name: Flet Build APK
       run: |
             echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}, USER: ${GITHUB_REPOSITORY%/*}, PROJECT_BASE_URL: ${GITHUB_REPOSITORY#*/}"
+            flutter config --no-analytics # disable fluttter analytics
             flet build apk --product ${GITHUB_REPOSITORY#*/}
 
     - name: Upload Artifact
-      uses: actions/upload-pages-artifact@v3
+      uses: actions/upload-artifact@v4.3.4
       with:
-        name: web-build-artifact  # the name of the artifact
+        name: apk-build-artifact  # the name of the artifact
         path: build/web
-
+        # If true, an artifact with a matching name will be deleted before a new one is uploaded. If false, the action will fail if an artifact for the given name already exists. Does not fail if the artifact does not exist.
+        overwrite: false # optional
+        if-no-files-found: error
  
