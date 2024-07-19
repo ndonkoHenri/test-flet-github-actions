@@ -36,6 +36,7 @@ jobs:
       run: |
             echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}, USER: ${GITHUB_REPOSITORY%/*}, PROJECT_BASE_URL: ${GITHUB_REPOSITORY#*/}"
             flutter config --no-analytics # disable fluttter analytics
+            flutter doctor
             flet build macos --v
 
     - name: Upload macOS Artifact
