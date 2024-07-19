@@ -1,0 +1,60 @@
+name: macOS Build 
+
+on:
+  # Runs on push to any of the below branches
+  push:
+    branches: 
+      - apk
+  # Runs on pull request events that target one of the below branches
+  pull_request:
+    branches: 
+      - master
+      - main
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Python 3.12.2
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.12.2
+
+    - name: Install Python Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+  
+    - name: Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.22.2'
+        
+    - name: Setup Java JDK
+      uses: actions/setup-java@v4.2.1
+      with:
+        distribution: 'temurin' # See 'Supported distributions' for available options
+        java-version: '21'
+
+    - name: Flet Build APK
+      run: |
+            echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}, USER: ${GITHUB_REPOSITORY%/*}, PROJECT_BASE_URL: ${GITHUB_REPOSITORY#*/}"
+            flutter config --no-analytics # disable fluttter analytics
+            flet build macos --v
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4.3.4
+      with:
+        name: macos-build-artifact  # the name of the artifact
+        path: build/macos
+        # If true, an artifact with a matching name will be deleted before a new one is uploaded. If false, the action will fail if an artifact for the given name already exists. Does not fail if the artifact does not exist.
+        overwrite: false # optional
+        if-no-files-found: error
+ 
