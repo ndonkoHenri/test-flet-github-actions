@@ -48,7 +48,7 @@ jobs:
         flet build linux --help       # Display help for the Flet build command
         flet build linux --verbose    # adapt the command to your needs - https://flet.dev/docs/publish 
 
-    - name: Upload IPA Artifact
+    - name: Upload Linux Artifact
       uses: actions/upload-artifact@v4.3.4  # https://github.com/marketplace/actions/upload-a-build-artifact
       with:
         name: linux-build-artifact  # the name of the artifact

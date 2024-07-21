@@ -1,0 +1,137 @@
+name: Desktop Builds
+
+on:
+  # Runs on push to any of the below branches
+  push:
+    branches:
+      - apk
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python 3.12.2
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.12.2
+
+      - name: Install Python Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.22.2'
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.pub-cache
+            ~/.flutter
+            ~/.local/lib/python3.12
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.yaml') }}-${{ hashFiles('**/requirements.txt') }}
+
+  build-linux:
+    needs: setup
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Restore Cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.pub-cache
+            ~/.flutter
+            ~/.local/lib/python3.12
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.yaml') }}-${{ hashFiles('**/requirements.txt') }}
+
+      - name: Patch for Linux build
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y ninja-build libgtk-3-dev
+
+      - name: Flet Build Linux
+        run: |
+          flutter doctor
+          flet build linux --help
+          flet build linux --verbose
+
+      - name: Upload Linux Artifact
+        uses: actions/upload-artifact@v4.3.4
+        with:
+          name: linux-build-artifact
+          path: build/linux
+          if-no-files-found: warn
+          overwrite: false
+
+  build-macos:
+    needs: setup
+    runs-on: macos-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Restore Cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.pub-cache
+            ~/.flutter
+            ~/.local/lib/python3.12
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.yaml') }}-${{ hashFiles('**/requirements.txt') }}
+
+      - name: Flet Build macOS
+        run: |
+          flutter doctor
+          flet build macos --help
+          flet build macos --verbose
+
+      - name: Upload macOS Artifact
+        uses: actions/upload-artifact@v4.3.4
+        with:
+          name: macos-build-artifact
+          path: build/macos
+          if-no-files-found: warn
+          overwrite: false
+
+  build-windows:
+    needs: setup
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Restore Cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.pub-cache
+            ~/.flutter
+            ~/.local/lib/python3.12
+          key: ${{ runner.os }}-flutter-${{ hashFiles('**/pubspec.yaml') }}-${{ hashFiles('**/requirements.txt') }}
+
+      - name: Flet Build Windows
+        run: |
+          flutter doctor
+          set PYTHONIOENCODING=utf-8      # Set the encoding for Python to UTF-8
+          flet build windows --help
+          flet build windows --verbose
+
+      - name: Upload Windows Artifact
+        uses: actions/upload-artifact@v4.3.4
+        with:
+          name: windows-build-artifact
+          path: build/windows
+          if-no-files-found: warn
+          overwrite: false
