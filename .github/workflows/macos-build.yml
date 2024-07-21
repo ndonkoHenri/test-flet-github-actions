@@ -35,16 +35,19 @@ jobs:
     - name: Flet Build macOS
       run: |
             echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}, USER: ${GITHUB_REPOSITORY%/*}, PROJECT_BASE_URL: ${GITHUB_REPOSITORY#*/}"
-            flutter config --no-analytics # disable fluttter analytics
+        
+        flutter config --no-analytics # disable flutter analytics
             flutter doctor
-            flet build macos --v
+        
+        flet build macos --help
+        flet build macos --verbose
 
     - name: Upload macOS Artifact
-      uses: actions/upload-artifact@v4.3.4
+      uses: actions/upload-artifact@v4.3.4  # https://github.com/marketplace/actions/upload-a-build-artifact
       with:
         name: macos-build-artifact  # the name of the artifact
-        path: build/macos
-        # If true, an artifact with a matching name will be deleted before a new one is uploaded. If false, the action will fail if an artifact for the given name already exists. Does not fail if the artifact does not exist.
-        overwrite: false # optional
-        if-no-files-found: error
- 
+        path: build/macos  # location of Flet build output
+        if-no-files-found: error  # Fail the action with an error message if no files are found
+        overwrite: false  # If true, an artifact with a matching name will be deleted before a new one is uploaded. If false, the action will fail if an artifact for the given name already exists. Does not fail if the artifact does not exist.
+
+

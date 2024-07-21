@@ -46,15 +46,19 @@ jobs:
     - name: Flet Web Build
       run: |
             echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}, USER: ${GITHUB_REPOSITORY%/*}, PROJECT_BASE_URL: ${GITHUB_REPOSITORY#*/}"
-            flutter --version
+        
+        flutter config --no-analytics # disable flutter analytics
+        flutter doctor
             flutter build web --help
-            flet build web --base-url ${GITHUB_REPOSITORY#*/} --route-url-strategy hash --flutter-build-args=--wasm
+        
+        flet build web --help
+        flet build web --base-url ${GITHUB_REPOSITORY#*/} --route-url-strategy hash --verbose
 
     - name: Upload GitHub Pages Artifact
       uses: actions/upload-pages-artifact@v3
       with:
         name: web-build-artifact
-        path: build/web
+        path: build/web  # location of Flet build output
 
   deploy:
     # waits for the "build" job to get done before executing
