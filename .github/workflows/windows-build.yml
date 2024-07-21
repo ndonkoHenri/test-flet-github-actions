@@ -18,7 +18,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Setup Python 3.12.2
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v5
       with:
         python-version: 3.12.2
 
@@ -40,6 +40,7 @@ jobs:
         flutter doctor
         
         set PYTHONIOENCODING=utf-8      # Set the encoding for Python to UTF-8
+        python -c "import sys; print(sys.stdout.encoding)"
         flet build windows --help       # Display help for the Flet build command
         flet build windows --verbose    # adapt the command to your needs - https://flet.dev/docs/publish 
 
