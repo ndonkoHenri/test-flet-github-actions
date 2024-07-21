@@ -40,12 +40,13 @@ jobs:
 
     - name: Flet Build APK
       run: |
-            echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}, USER: ${GITHUB_REPOSITORY%/*}, PROJECT_BASE_URL: ${GITHUB_REPOSITORY#*/}"
+        echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}, USER: ${GITHUB_REPOSITORY%/*}, PROJECT_BASE_URL: ${GITHUB_REPOSITORY#*/}"
         
         flutter config --no-analytics # disable flutter analytics
-            flutter doctor
+        flutter doctor
         
-        flet build apk --verbose
+        flet build apk --help       # Display help for the Flet build command
+        flet build apk --verbose    # adapt the command to your needs - https://flet.dev/docs/publish 
 
     - name: Upload Artifact
       uses: actions/upload-artifact@v4.3.4  # https://github.com/marketplace/actions/upload-a-build-artifact

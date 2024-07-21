@@ -34,13 +34,13 @@ jobs:
 
     - name: Flet Build Windows
       run: |
-            echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}, USER: ${GITHUB_REPOSITORY%/*}, PROJECT_BASE_URL: ${GITHUB_REPOSITORY#*/}"
+        echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}, USER: ${GITHUB_REPOSITORY%/*}, PROJECT_BASE_URL: ${GITHUB_REPOSITORY#*/}"
         
         flutter config --no-analytics # disable flutter analytics
-            flutter doctor
+        flutter doctor
         
-        flet build windows --help
-        flet build windows --verbose
+        flet build windows --help       # Display help for the Flet build command
+        flet build windows --verbose    # adapt the command to your needs - https://flet.dev/docs/publish 
 
     - name: Upload Windows Artifact
       uses: actions/upload-artifact@v4.3.4  # https://github.com/marketplace/actions/upload-a-build-artifact

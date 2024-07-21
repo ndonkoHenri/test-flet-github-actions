@@ -34,12 +34,13 @@ jobs:
 
     - name: Flet Build IPA
       run: |
-            echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}, USER: ${GITHUB_REPOSITORY%/*}, PROJECT_BASE_URL: ${GITHUB_REPOSITORY#*/}"
-        flutter config --no-analytics # disable flutter analytics
-            flutter doctor
+        echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}, USER: ${GITHUB_REPOSITORY%/*}, PROJECT_BASE_URL: ${GITHUB_REPOSITORY#*/}"
         
-        flet build ipa --help
-        flet build ipa --verbose
+        flutter config --no-analytics # disable flutter analytics
+        flutter doctor
+        
+        flet build ipa --help       # Display help for the Flet build command
+        flet build ipa --verbose    # adapt the command to your needs - https://flet.dev/docs/publish 
 
     - name: Upload IPA Artifact
       uses: actions/upload-artifact@v4.3.4  # https://github.com/marketplace/actions/upload-a-build-artifact

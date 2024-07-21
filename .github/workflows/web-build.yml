@@ -45,11 +45,11 @@ jobs:
 
     - name: Flet Web Build
       run: |
-            echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}, USER: ${GITHUB_REPOSITORY%/*}, PROJECT_BASE_URL: ${GITHUB_REPOSITORY#*/}"
+        echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}, USER: ${GITHUB_REPOSITORY%/*}, PROJECT_BASE_URL: ${GITHUB_REPOSITORY#*/}"
         
         flutter config --no-analytics # disable flutter analytics
         flutter doctor
-            flutter build web --help
+        flutter build web --help
         
         flet build web --help
         flet build web --base-url ${GITHUB_REPOSITORY#*/} --route-url-strategy hash --verbose
