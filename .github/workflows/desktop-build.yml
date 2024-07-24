@@ -130,7 +130,7 @@ jobs:
         run: |
           flutter doctor
           echo PYTHONIOENCODING=utf8 >> $GITHUB_ENV
-            python -c "import sys; print(sys.stdout.encoding)"
+          python -c "import sys; print(sys.stdout.encoding)"
           flet build windows --help
           flet build windows --verbose
 
