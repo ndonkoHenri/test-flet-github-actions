@@ -39,7 +39,7 @@ jobs:
         flutter config --no-analytics # disable flutter analytics
         flutter doctor
         
-        echo PYTHONIOENCODING=utf-8 >> $GITHUB_ENV      # Set the encoding for Python to UTF-8
+        python -c "import os; os.environ['PYTHONIOENCODING'] = 'utf-8'; import sys; print(sys.stdout.encoding)"      # Set the encoding for Python to UTF-8
         python -c "import sys; print(sys.stdout.encoding)"
         flet build windows --help       # Display help for the Flet build command
         flet build windows --verbose    # adapt the command to your needs - https://flet.dev/docs/publish 
