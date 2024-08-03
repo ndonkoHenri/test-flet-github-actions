@@ -24,20 +24,20 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Setup Python $PYTHON_VERSION
+    - name: Setup Python ${{ env.PYTHON_VERSION }}
       uses: actions/setup-python@v5
       with:
-        python-version: $PYTHON_VERSION
+        python-version: ${{ env.PYTHON_VERSION }}
 
     - name: Install Python Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Setup Flutter $FLUTTER_VERSION
+    - name: Setup Flutter ${{ env.FLUTTER_VERSION }}
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: $FLUTTER_VERSION
+        flutter-version: ${{ env.FLUTTER_VERSION }}
 
     - name: Patch for linux build
       run: |
@@ -66,20 +66,20 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Setup Python $PYTHON_VERSION
+    - name: Setup Python ${{ env.PYTHON_VERSION }}
       uses: actions/setup-python@v5
       with:
-        python-version: $PYTHON_VERSION
+        python-version: ${{ env.PYTHON_VERSION }}
 
     - name: Install Python Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Setup Flutter $FLUTTER_VERSION
+    - name: Setup Flutter ${{ env.FLUTTER_VERSION }}
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: $FLUTTER_VERSION
+        flutter-version: ${{ env.FLUTTER_VERSION }}
 
     - name: Flet Build macOS
       run: |
@@ -101,20 +101,20 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Setup Python $PYTHON_VERSION
+    - name: Setup Python ${{ env.PYTHON_VERSION }}
       uses: actions/setup-python@v5
       with:
-        python-version: $PYTHON_VERSION
+        python-version: ${{ env.PYTHON_VERSION }}
 
     - name: Install Python Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Setup Flutter $FLUTTER_VERSION
+    - name: Setup Flutter ${{ env.FLUTTER_VERSION }}
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: $FLUTTER_VERSION
+        flutter-version: ${{ env.FLUTTER_VERSION }}
 
     - name: Flet Build Windows
       run: |
@@ -136,20 +136,20 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Setup Python $PYTHON_VERSION
+    - name: Setup Python ${{ env.PYTHON_VERSION }}
       uses: actions/setup-python@v5
       with:
-        python-version: $PYTHON_VERSION
+        python-version: ${{ env.PYTHON_VERSION }}
 
     - name: Install Python Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Setup Flutter $FLUTTER_VERSION
+    - name: Setup Flutter ${{ env.FLUTTER_VERSION }}
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: $FLUTTER_VERSION
+        flutter-version: ${{ env.FLUTTER_VERSION }}
 
     - name: Flet Build AAB
       run: |
@@ -171,20 +171,20 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Setup Python $PYTHON_VERSION
+    - name: Setup Python ${{ env.PYTHON_VERSION }}
       uses: actions/setup-python@v5
       with:
-        python-version: $PYTHON_VERSION
+        python-version: ${{ env.PYTHON_VERSION }}
 
     - name: Install Python Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Setup Flutter $FLUTTER_VERSION
+    - name: Setup Flutter ${{ env.FLUTTER_VERSION }}
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: $FLUTTER_VERSION
+        flutter-version: ${{ env.FLUTTER_VERSION }}
 
     - name: Setup Java JDK
       uses: actions/setup-java@v4.2.1
@@ -212,20 +212,20 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Setup Python $PYTHON_VERSION
+    - name: Setup Python ${{ env.PYTHON_VERSION }}
       uses: actions/setup-python@v5
       with:
-        python-version: $PYTHON_VERSION
+        python-version: ${{ env.PYTHON_VERSION }}
 
     - name: Install Python Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Setup Flutter $FLUTTER_VERSION
+    - name: Setup Flutter ${{ env.FLUTTER_VERSION }}
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: $FLUTTER_VERSION
+        flutter-version: ${{ env.FLUTTER_VERSION }}
 
     - name: Flet Build IPA
       run: |

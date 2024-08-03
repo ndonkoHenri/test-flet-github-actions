@@ -34,10 +34,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Setup Flutter $FLUTTER_VERSION
+    - name: Setup Flutter ${{ env.FLUTTER_VERSION }}
       uses: subosito/flutter-action@v2
       with:
-        flutter-version: $FLUTTER_VERSION
+        flutter-version: ${{ env.FLUTTER_VERSION }}
 
     - name: Patch for linux build
       run: |
