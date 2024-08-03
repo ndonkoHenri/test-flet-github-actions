@@ -24,10 +24,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
-    - name: Setup Python $PYTHON_VERSION
+    - name: Setup Python ${{ env.PYTHON_VERSION }}
       uses: actions/setup-python@v5
       with:
-        python-version: $PYTHON_VERSION
+        python-version: ${{ env.PYTHON_VERSION }}
 
     - name: Install Python Dependencies
       run: |
