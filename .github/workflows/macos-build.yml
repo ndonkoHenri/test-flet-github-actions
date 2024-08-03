@@ -62,9 +62,9 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "macos-build-artifact/*"
+          artifacts: "macos-build-artifact"
           generateReleaseNotes: "true"
           tag: "v${{ env.BUILD_VERSION }}"
