@@ -52,4 +52,18 @@ jobs:
         if-no-files-found: error  # Fail the action with an error message if no files are found
         overwrite: false  # If true, an artifact with a matching name will be deleted before a new one is uploaded. If false, the action will fail if an artifact for the given name already exists. Does not fail if the artifact does not exist.
 
+  release:
+    runs-on: ubuntu-latest
+    needs: build
+    # if: github.event_name == 'release'
+    uses: jasondavis303/tag-and-release-and-upload@v1.2.0
+    with:
+      github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      # Use the version from the previous step
+      version: v${{ env.BUILD_VERSION }}
+
+      assets: '[ "windows-build-artifact" ]'
+      overwrite: false
+
 
