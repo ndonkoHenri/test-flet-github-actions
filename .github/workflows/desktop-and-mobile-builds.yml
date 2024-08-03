@@ -119,7 +119,7 @@ jobs:
     - name: Flet Build Windows
       run: |
         flutter config --no-analytics
-        flet build windows --verbose --no-rich-output --build-number=$BUILD_NUMBER --build-version=$BUILD_VERSION
+        flet build windows --verbose --no-rich-output --build-number=$env:BUILD_NUMBER --build-version=$env:BUILD_VERSION
 
     - name: Upload Windows Artifact
       uses: actions/upload-artifact@v4.3.4
