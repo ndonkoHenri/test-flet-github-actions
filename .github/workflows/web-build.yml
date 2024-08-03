@@ -3,7 +3,7 @@ name: Web App Build And Deploy
 on:
   # Runs on pushes on the below branches
   push:
-    branches: 
+    branches:
       - main
   # Runs on pull request events that target the below branches
   pull_request:
