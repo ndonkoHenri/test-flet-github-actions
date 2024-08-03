@@ -67,3 +67,4 @@ jobs:
         with:
           artifacts: "macos-build-artifact/*"
           generateReleaseNotes: "true"
+          tag: "v${{ env.BUILD_VERSION }}"
