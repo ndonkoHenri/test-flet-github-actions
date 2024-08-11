@@ -3,13 +3,11 @@ name: Web App Build And Deploy
 on:
   # Runs on pushes on the below branches
   push:
-    branches: 
-      - master
+    branches:
       - main
   # Runs on pull request events that target the below branches
   pull_request:
     branches: 
-      - master
       - main
 
   # Allows you to run this workflow manually from the Actions tab
@@ -30,7 +28,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Setup Python 3.12.2
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v5
       with:
         python-version: 3.12.2
 
@@ -47,16 +45,20 @@ jobs:
 
     - name: Flet Web Build
       run: |
-            echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}, USER: ${GITHUB_REPOSITORY%/*}, PROJECT_BASE_URL: ${GITHUB_REPOSITORY#*/}"
-            flutter --version
-            flutter build web --help
-            flet build web --base-url ${GITHUB_REPOSITORY#*/} --route-url-strategy hash --flutter-build-args=--wasm
+        echo "GITHUB_REPOSITORY: ${GITHUB_REPOSITORY}, USER: ${GITHUB_REPOSITORY%/*}, PROJECT_BASE_URL: ${GITHUB_REPOSITORY#*/}"
+        
+        flutter config --no-analytics # disable flutter analytics
+        flutter doctor
+        flutter build web --help
+        
+        flet build web --help
+        flet build web --base-url ${GITHUB_REPOSITORY#*/} --route-url-strategy hash --verbose
 
     - name: Upload GitHub Pages Artifact
       uses: actions/upload-pages-artifact@v3
       with:
         name: web-build-artifact
-        path: build/web
+        path: build/web  # location of Flet build output
 
   deploy:
     # waits for the "build" job to get done before executing
