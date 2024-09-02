@@ -19,9 +19,11 @@ def main(page: ft.Page):
 
     # the app's appbar
     page.appbar = ft.AppBar(
-        title=ft.Text("Flet Demo Home Page", color=ft.colors.WHITE),  # a title of white color
+        title=ft.Text(
+            "Flet Demo Home Page", color=ft.colors.WHITE
+        ),  # a title of white color
         bgcolor=ft.colors.BLUE,  # a blue background color
-        center_title=True  # center the title || without this, the title will be on the left
+        center_title=True,  # center the title || without this, the title will be on the left
     )
 
     # text that contains the counter number to be incremented
@@ -33,14 +35,11 @@ def main(page: ft.Page):
         shape=ft.CircleBorder(),  # gives the button a round/circle shape
         on_click=increment_counter,  # the callback to be executed when this button is clicked
         tooltip="Increment",  # the text to be shown when this button is hovered
-        bgcolor=ft.colors.BLUE  # a blue background color
+        bgcolor=ft.colors.BLUE,  # a blue background color
     )
 
     # adding our widgets/controls to the page/UI
-    page.add(
-        ft.Text("You have pushed the button this many times:"),
-        counter_text
-    )
+    page.add(ft.Text("You have pushed the button this many times:"), counter_text)
 
 
 ft.app(target=main)
