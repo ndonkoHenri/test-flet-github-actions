@@ -1,1 +1,2 @@
-flet
+flet==0.25.0.dev3519
+pillow==10.4.0
