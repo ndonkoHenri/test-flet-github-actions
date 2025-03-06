@@ -1,4 +1,4 @@
-name: All Builds (Linux, macOS, Windows, Android, IPA, APK, AAB)
+name: All Builds (Linux, macOS, Windows, IPA, APK, AAB)
 
 on:
   # Runs on push to any of the below branches
@@ -16,7 +16,9 @@ env:
   PYTHON_VERSION: 3.12.8
   FLUTTER_VERSION: 3.27.4
   FLET_CLI_VERSION: 0.27.5
-  PYTHONUTF8: "1"
+  PYTHONUTF8: 1
+  FLET_CLI_NO_RICH_OUTPUT: 1
+  UV_NO_PROGRESS: 1
 
 jobs:
   build-linux:
@@ -130,7 +132,7 @@ jobs:
         overwrite: false
 
   build-aab:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
@@ -165,7 +167,7 @@ jobs:
         overwrite: false
 
   build-apk:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
     - name: Checkout code
