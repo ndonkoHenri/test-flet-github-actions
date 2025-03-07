@@ -1,10 +1,6 @@
 name: All Builds (Linux, macOS, Windows, IPA, APK, AAB)
 
 on:
-  # Runs on push to any of the below branches
-  push:
-    branches:
-      - apk
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -184,7 +180,6 @@ jobs:
 
     - name: Flet Build IPA
       run: |
-        flutter config --no-analytics
         flet build ipa --verbose --build-number=$BUILD_NUMBER --build-version=$BUILD_VERSION 
 
     - name: Upload IPA Artifact
