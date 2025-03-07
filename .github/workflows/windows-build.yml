@@ -1,11 +1,6 @@
 name: Windows Build 
 
 on:
-  # Runs on push to any of the below branches
-  push:
-    branches: 
-      - apk
-
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
