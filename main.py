@@ -1,4 +1,5 @@
 import os
+import time
 from datetime import datetime
 import flet as ft
 
@@ -35,7 +36,7 @@ class Counter(ft.Text):
         try:
             with open(self.storage_path, "r") as f:
                 value = int(f.read().strip())
-        except (FileNotFoundError, ValueError): 
+        except (FileNotFoundError, ValueError):
             # file does not exist or int parsing failed
             value = 0
 
@@ -88,8 +89,31 @@ def main(page: ft.Page):
         on_click=lambda e: counter.increment(),
     )
     page.floating_action_button_location = ft.FloatingActionButtonLocation.CENTER_FLOAT
+    drawer = ft.NavigationDrawer(
+        controls=[
+            ft.Container(height=12),
+            ft.NavigationDrawerDestination(
+                label="Item 1",
+                icon=ft.Icons.DOOR_BACK_DOOR_OUTLINED,
+                selected_icon=ft.Icon(ft.Icons.DOOR_BACK_DOOR),
+            ),
+            ft.Divider(thickness=2),
+            ft.NavigationDrawerDestination(
+                icon=ft.Icon(ft.Icons.MAIL_OUTLINED),
+                label="Item 2",
+                selected_icon=ft.Icons.MAIL,
+            ),
+            ft.NavigationDrawerDestination(
+                icon=ft.Icon(ft.Icons.PHONE_OUTLINED),
+                label="Item 3",
+                selected_icon=ft.Icons.PHONE,
+            ),
+        ],
+    )
 
     page.add(ft.SafeArea(counter))
+    time.sleep(3)
+    page.open(drawer)
 
 
 ft.app(main)
