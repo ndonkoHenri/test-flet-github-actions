@@ -1,119 +1,76 @@
-import os
-import time
-from datetime import datetime
+import sys
+
+# from core.config import ConfigApp
 import flet as ft
 
-# constants
-FLET_APP_STORAGE_DATA = os.getenv("FLET_APP_STORAGE_DATA")
-COUNTER_FILE_PATH = os.path.join(FLET_APP_STORAGE_DATA, "counter.txt")
-FLET_APP_CONSOLE = os.getenv("FLET_APP_CONSOLE")
+if sys.platform == "emscripten":
+    import packages.flet_easy as fs
+else:
+    import flet_easy as fs
+app = fs.FletEasy(route_init="/")
 
 
-class Counter(ft.Text):
-    def __init__(self, storage_path=COUNTER_FILE_PATH):
-        super().__init__(theme_style=ft.TextThemeStyle.HEADLINE_LARGE)
-        self.storage_path = storage_path
-        self.count = self.__read_from_storage()
 
-    def increment(self):
-        """Increment the counter, store the new value, and return it."""
-        self.count += 1
-        self.update()
-        self.__write_to_storage()
+async def home(data: fs.Datasy):
+    page = data.page
 
-    def before_update(self):
-        super().before_update()
-        self.value = f"Button tapped {self.count} time{'' if self.count == 1 else 's'}"
+    async def navbar_click(e: ft.ControlEvent):
+        print("navbar_click")
 
-    def __log(self, action: str, value: int = None):
-        """Log executed action."""
-        if value is None:
-            value = self.count
-        print(f"{datetime.now().strftime('%Y/%m/%d %H:%M:%S')} - {action} = {value}")
-
-    def __read_from_storage(self):
-        """Read counter value. If an error occurs, use 0."""
-        try:
-            with open(self.storage_path, "r") as f:
-                value = int(f.read().strip())
-        except (FileNotFoundError, ValueError):
-            # file does not exist or int parsing failed
-            value = 0
-
-        self.__log("READ", value)
-        return value
-
-    def __write_to_storage(self):
-        """Write current counter value to storage."""
-        with open(self.storage_path, "w") as f:
-            f.write(str(self.count))
-        self.__log("WRITE")
-
-
-def main(page: ft.Page):
-    page.theme_mode = ft.ThemeMode.LIGHT
-    page.vertical_alignment = ft.MainAxisAlignment.CENTER
-    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
-
-    def show_logs(e: ft.ControlEvent):
-        if FLET_APP_CONSOLE is not None:
-            with open(FLET_APP_CONSOLE, "r") as f:
-                dlg = ft.AlertDialog(
-                    title=ft.Text("App Logs"),
-                    content=ft.Text(f.read()),
-                    scrollable=True,
-                )
-                page.open(dlg)
-
-    counter = Counter()
-    page.appbar = ft.AppBar(
-        title=ft.Text("Storage Playground", weight=ft.FontWeight.BOLD),
-        center_title=True,
-        bgcolor=ft.Colors.BLUE,
-        color=ft.Colors.WHITE,
-        adaptive=True,
-        actions=[
-            ft.IconButton(
-                icon=ft.Icons.REMOVE_RED_EYE,
-                tooltip="Show logs",
-                visible=FLET_APP_CONSOLE is not None,
-                on_click=show_logs,
-            ),
-        ],
-    )
-    page.floating_action_button = ft.FloatingActionButton(
-        icon=ft.Icons.ADD,
-        text="Increment Counter",
-        foreground_color=ft.Colors.WHITE,
-        bgcolor=ft.Colors.BLUE,
-        on_click=lambda e: counter.increment(),
-    )
-    page.floating_action_button_location = ft.FloatingActionButtonLocation.CENTER_FLOAT
     drawer = ft.NavigationDrawer(
         controls=[
             ft.Container(height=12),
             ft.NavigationDrawerDestination(
-                label="Item 1",
-                icon=ft.Icons.DOOR_BACK_DOOR_OUTLINED,
-                selected_icon=ft.Icon(ft.Icons.DOOR_BACK_DOOR),
+                label="首页",
+                icon=ft.Icons.HOME_OUTLINED,
+                selected_icon=ft.Icons.HOME_FILLED,
             ),
-            ft.Divider(thickness=2),
-            ft.NavigationDrawerDestination(
-                icon=ft.Icon(ft.Icons.MAIL_OUTLINED),
-                label="Item 2",
-                selected_icon=ft.Icons.MAIL,
-            ),
-            ft.NavigationDrawerDestination(
-                icon=ft.Icon(ft.Icons.PHONE_OUTLINED),
-                label="Item 3",
-                selected_icon=ft.Icons.PHONE,
+            ft.Divider(),
+        ],
+        on_change=navbar_click,
+    )
+    page.drawer = drawer
+    appbar = ft.AppBar(
+        leading=ft.IconButton(
+            icon=ft.Icons.MENU,
+            icon_size=27,
+            on_click=lambda _: page.open(drawer),
+            offset=ft.Offset(x=0.1, y=0),
+        ),
+        leading_width=30,
+        title=ft.Text("首页"),
+        center_title=False,
+        bgcolor=ft.Colors.BLUE,
+        actions=[
+            ft.IconButton(ft.Icons.SEARCH, tooltip="搜索"),
+            ft.PopupMenuButton(
+                items=[
+                    ft.PopupMenuItem(text="导入向导", on_click=data.go("/welcome")),
+                    ft.PopupMenuItem(),  # divider
+                ],
+                tooltip="选项",
             ),
         ],
     )
 
-    page.add(ft.SafeArea(counter))
-    time.sleep(3)
-    page.open(drawer)
+    # async def load_msg(page: ft.Page):
+        
+
+    # await load_msg(data, page, mainview, dialog, drawer, appbar)
+
+    return ft.View(
+        appbar=appbar,
+        drawer=drawer,
+    )
+
+# We define the routes of the application.
+app.add_routes(
+    [
+        fs.Pagesy("/",home, title="Qviewer | 首页"),
+
+    ]
+)
 
 
-ft.app(main)
+# We run the application
+app.run()
