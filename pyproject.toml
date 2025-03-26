@@ -9,7 +9,7 @@ authors = [
 
 dependencies = [
   "flet==0.27.6",
-  "flet-easy>=0.2.0"
+  "flet-permission-handler"
 ]
 
 [tool.flet]
