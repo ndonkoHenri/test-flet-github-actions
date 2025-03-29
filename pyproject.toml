@@ -9,7 +9,7 @@ authors = [
 
 dependencies = [
   "flet==0.27.6",
-  "flet-permission-handler"
+  "pywin32"
 ]
 
 [tool.flet]
