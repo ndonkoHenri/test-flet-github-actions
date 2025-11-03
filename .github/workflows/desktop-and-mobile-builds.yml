@@ -5,12 +5,15 @@ on:
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+  
+  schedule:
+    - cron: "0 12 * * *"   # runs every day at 12:00 noon UTC
 
 env:
   # https://flet.dev/docs/publish#versioning
   BUILD_NUMBER: 1
   BUILD_VERSION: 1.0.0
-  UV_PYTHON: 3.12.8
+  UV_PYTHON: 3.12
   PYTHONUTF8: 1
   FLET_CLI_NO_RICH_OUTPUT: 1
 
