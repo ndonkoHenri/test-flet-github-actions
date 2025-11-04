@@ -30,7 +30,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          uv pip install "flet[cli] >=0.70.0.dev0" --prerelease='allow'
+          uv pip install "flet[cli] >=0.70.0.dev0" --prerelease='allow' --system
           
       - name: Patch for linux build
         run: |
