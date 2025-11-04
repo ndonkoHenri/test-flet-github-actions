@@ -8,7 +8,7 @@ authors = [
 ]
 
 dependencies = [
-  "flet[all]>=0.70.0.dev0",
+  "flet >=0.70.0.dev0",
   "flet-ads >=0.70.0.dev0",
   "flet-audio >=0.70.0.dev0",
   "flet-audio-recorder >=0.70.0.dev0",
