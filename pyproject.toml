@@ -9,6 +9,8 @@ authors = [
 
 dependencies = [
   "flet >=0.70.0.dev0",
+  
+  # extensions
   "flet-ads >=0.70.0.dev0",
   "flet-audio >=0.70.0.dev0",
   "flet-audio-recorder >=0.70.0.dev0",
@@ -24,13 +26,16 @@ dependencies = [
   "flet-webview >=0.70.0.dev0",
 ]
 
-
 [tool.uv]
 prerelease = "allow"
 
+# Docs: https://flet.dev/docs/publish
 [tool.flet]
-company = "EthicalCompany"
+org = "com.mycompany"
+product = "flet-build-example"
+company = "TheEthicalBoy"
+copyright = "Copyright (C) 2025 by TheEthicalBoy"
 
 [tool.flet.app]
-path = "."
+path = "src"
 
