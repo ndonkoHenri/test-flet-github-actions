@@ -39,8 +39,5 @@ copyright = "Copyright (C) 2025 by TheEthicalBoy"
 [tool.flet.app]
 path = "src"
 
-[tool.flet.flutter.pubspec]
-dependency_overrides = {
-  "archive": "^4.0.0"
-}
-
+[tool.flet.flutter.pubspec.dependency_overrides]
+archive = "^4.0.0"
