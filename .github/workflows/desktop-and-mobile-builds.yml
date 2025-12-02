@@ -29,15 +29,43 @@ jobs:
       - name: Setup uv
         uses: astral-sh/setup-uv@v6
 
-      - name: Install dependencies
+      - name: Install Python dependencies
         run: |
           uv venv
           uv pip install "flet[cli] >=0.70.0.dev0"
           
-      - name: Patch for linux build
+      - name: Install Linux dependencies
         run: |
           sudo apt-get update -y
           sudo apt-get install -y ninja-build libgtk-3-dev
+
+      - name: Install dependencies
+        shell: bash
+        run: |
+          sudo apt update --allow-releaseinfo-change
+          sudo apt-get install -y --no-install-recommends \
+            clang \
+            libgtk-3-dev \
+            libasound2-dev \
+            libmpv-dev \
+            mpv \
+            libgstreamer1.0-dev \
+            libgstreamer-plugins-base1.0-dev \
+            libgstreamer-plugins-bad1.0-dev \
+            gstreamer1.0-plugins-base \
+            gstreamer1.0-plugins-good \
+            gstreamer1.0-plugins-bad \
+            gstreamer1.0-plugins-ugly \
+            gstreamer1.0-libav \
+            gstreamer1.0-tools \
+            gstreamer1.0-x \
+            gstreamer1.0-alsa \
+            gstreamer1.0-gl \
+            gstreamer1.0-gtk3 \
+            gstreamer1.0-qt5 \
+            gstreamer1.0-pulseaudio
+      
+          sudo apt-get clean
 
       - name: Flet Build Linux
         run: |
