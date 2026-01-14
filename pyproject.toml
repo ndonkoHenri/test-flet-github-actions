@@ -38,3 +38,6 @@ copyright = "Copyright (C) 2025 by TheEthicalBoy"
 
 [tool.flet.app]
 path = "src"
+
+[tool.flet.flutter.dependencies]
+flet_audio = "0.80.1"
