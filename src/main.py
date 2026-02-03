@@ -1,18 +1,5 @@
 
 import flet as ft
-import flet_ads
-import flet_audio
-import flet_audio_recorder
-import flet_charts
-import flet_datatable2
-import flet_flashlight
-import flet_geolocator
-import flet_lottie
-import flet_map
-import flet_permission_handler
-import flet_rive
-import flet_video
-import flet_webview
 
 
 def main(page: ft.Page):
