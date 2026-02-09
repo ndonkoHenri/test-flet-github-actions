@@ -24,50 +24,11 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          # -------- Desktop --------
-          - name: linux
-            runner: ubuntu-latest
-            build_cmd: "flet build linux --yes --verbose --build-number=$BUILD_NUMBER --build-version=$BUILD_VERSION"
-            artifact_path: build/linux
-            needs_linux_deps: true
-
-          - name: macos
-            runner: macos-latest
-            build_cmd: "flet build macos --yes --verbose --build-number=$BUILD_NUMBER --build-version=$BUILD_VERSION"
-            artifact_path: build/macos
-            needs_linux_deps: false
-
-          - name: windows
-            runner: windows-latest
-            build_cmd: "flet build windows --yes --verbose --build-number=$BUILD_NUMBER --build-version=$BUILD_VERSION"
-            artifact_path: build/windows
-            needs_linux_deps: false
-
-          # -------- Android --------
-          - name: aab
-            runner: ubuntu-latest
-            build_cmd: "flet build aab --yes --verbose --build-number=$BUILD_NUMBER --build-version=$BUILD_VERSION"
-            artifact_path: build/aab
-            needs_linux_deps: false
-
-          - name: apk
-            runner: ubuntu-latest
-            build_cmd: "flet build apk --yes --verbose --build-number=$BUILD_NUMBER --build-version=$BUILD_VERSION"
-            artifact_path: build/apk
-            needs_linux_deps: false
-
           # -------- iOS --------
           - name: ipa
             runner: macos-latest
-            build_cmd: "flet build ipa --yes --verbose --build-number=$BUILD_NUMBER --build-version=$BUILD_VERSION"
+            build_cmd: "flet build ipa --yes --verbose --build-number=$BUILD_NUMBER --build-version=$BUILD_VERSION --flutter-build-args=--simulator"
             artifact_path: build/ipa
-            needs_linux_deps: false
-
-          # -------- Web --------
-          - name: web
-            runner: ubuntu-latest
-            build_cmd: "flet build web --yes --verbose"
-            artifact_path: build/web
             needs_linux_deps: false
 
     steps:
