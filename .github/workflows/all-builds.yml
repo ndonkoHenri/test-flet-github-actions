@@ -5,7 +5,6 @@ on:
   pull_request:
   workflow_dispatch:
 
-
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, does not cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
@@ -35,13 +34,10 @@ jobs:
         run: |
           uv run flet build web --yes --verbose --base-url ${GITHUB_REPOSITORY#*/} --route-url-strategy hash
       
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v5.0.0
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v4.0.0
         with:
-          name: web-build-artifact
           path: build/web
-          if-no-files-found: error
-          overwrite: false
 
   deploy:
     name: Deploy to GitHub Pages
@@ -65,5 +61,3 @@ jobs:
         if: github.event_name == 'push'  # deploy only on push
         id: deployment
         uses: actions/deploy-pages@v4.0.5
-        with:
-          artifact_name: web-build-artifact
