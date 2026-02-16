@@ -8,7 +8,7 @@ authors = [
 ]
 
 dependencies = [
-  "flet",
+  "flet==0.80.5",
 ]
 
 # Docs: https://flet.dev/docs/publish
