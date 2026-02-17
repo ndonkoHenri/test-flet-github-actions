@@ -9,6 +9,7 @@ authors = [
 
 dependencies = [
   "flet",
+  "selenium"
 ]
 
 # Docs: https://flet.dev/docs/publish
