@@ -8,16 +8,16 @@ authors = [
 ]
 
 dependencies = [
-  "flet",
-  "selenium"
+    "flet>=0.81.0",
+    "flet-audio>=0.81.0"
 ]
 
 # Docs: https://flet.dev/docs/publish
 [tool.flet]
 org = "com.mycompany"
 product = "flet-build-example"
-company = "TheEthicalBoy"
-copyright = "Copyright (C) 2025 by TheEthicalBoy"
+build_number = 1
 
 [tool.flet.app]
 path = "src"
+module = "main"
