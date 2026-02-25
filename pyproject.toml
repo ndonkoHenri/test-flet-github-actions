@@ -21,3 +21,6 @@ build_number = 1
 [tool.flet.app]
 path = "src"
 module = "main"
+
+[tool.flet.flutter.pubspec.dependency_overrides]
+flet = { path = "../flutter-packages/flet" }
