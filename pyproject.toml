@@ -9,18 +9,13 @@ authors = [
 
 dependencies = [
     "flet>=0.81.0",
-    "flet-audio>=0.81.0"
+    "sqlalchemy"
 ]
 
 # Docs: https://flet.dev/docs/publish
 [tool.flet]
-org = "com.mycompany"
-product = "flet-build-example"
+product = "Example App"
 build_number = 1
 
 [tool.flet.app]
 path = "src"
-module = "main"
-
-[tool.flet.flutter.pubspec.dependency_overrides]
-flet = { path = "../flutter-packages/flet" }

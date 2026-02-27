@@ -1,6 +1,6 @@
 
 import flet as ft
-import flet_audio as fta 
+import sqlalchemy
 
 def main(page: ft.Page):
     page.appbar = ft.AppBar(title=ft.Text("Playground"))
@@ -8,7 +8,7 @@ def main(page: ft.Page):
 
     page.add(
         ft.SafeArea(
-            content=ft.TextButton("Hello World!"),
+            content=ft.Text(f"Hello, SqlAlchemy v{sqlalchemy.__version__}!"),
         )
     )
 
