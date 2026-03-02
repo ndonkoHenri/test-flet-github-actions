@@ -9,7 +9,7 @@ authors = [
 
 dependencies = [
     "flet>=0.81.0",
-    "sqlalchemy"
+    "xlwings"
 ]
 
 # Docs: https://flet.dev/docs/publish
