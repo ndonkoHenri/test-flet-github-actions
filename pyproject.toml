@@ -8,8 +8,8 @@ authors = [
 ]
 
 dependencies = [
-    "flet>=0.81.0",
-    "xlwings"
+    "flet==0.81.1.dev7731",
+    "flet-webview==0.81.1.dev7731"
 ]
 
 # Docs: https://flet.dev/docs/publish
