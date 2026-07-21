@@ -1,0 +1,24 @@
+name: lv-repro-4543
+
+# Reproduces flet-dev/flet#4543 ("library load disallowed by system policy")
+# on a stock GitHub macOS runner with zero Apple Developer secrets:
+# ad-hoc signing + hardened runtime is enough to trigger the same library
+# validation that TestFlight/App Store builds are subject to.
+
+on:
+  push:
+    branches: [lv-repro-4543]
+    paths: ['lv-repro/**', '.github/workflows/lv-repro-4543.yml']
+  workflow_dispatch:
+
+jobs:
+  matrix:
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [macos-15, macos-14]
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run enforcement matrix
+        run: bash lv-repro/run_matrix.sh
