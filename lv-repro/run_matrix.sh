@@ -36,10 +36,25 @@ run_case() { # <name> <expected-regex> <cmd...>
     fi
 }
 
+observe_case() { # <name> <cmd...> — no assertion, report only
+    local name="$1"; shift
+    local out; out="$("$@" 2>&1)"
+    SKIP=$((SKIP+1)); ROWS+=$'\n'"| - | $name | (not asserted, SIP off) | ℹ️ \`${out%%$'\n'*}\` |"
+    printf 'ℹ️  %s -> %s\n' "$name" "${out%%$'\n'*}"
+}
+
 echo "== environment =="
 sw_vers
-csrutil status || true
+SIPSTAT="$(csrutil status 2>&1 || true)"; echo "$SIPSTAT"
 GK="$(spctl --status 2>&1 || true)"; echo "spctl: $GK"
+SIP_ON=0; [[ "$SIPSTAT" == *"status: enabled"* ]] && SIP_ON=1
+if (( ! SIP_ON )); then
+    echo
+    echo "*** SIP is DISABLED (typical for GitHub-hosted macOS runners). ***"
+    echo "*** AMFI library validation and Gatekeeper dylib checks are not ***"
+    echo "*** enforced without SIP, so enforcement rows run unasserted.   ***"
+    echo "*** Full assertions require a SIP-enabled Mac (self-hosted).    ***"
+fi
 
 echo; echo "== build fixtures =="
 clang -o harness "$HERE/harness.c"
@@ -65,8 +80,13 @@ run_case "plain + wheel .so passes signature"   'symbol not found'              
 
 echo; echo "== Row 2: ad-hoc + hardened runtime (TestFlight/App Store-equivalent LV) =="
 codesign -f -s - -o runtime harness
-run_case "hardened rejects local dylib (LV)"    'different Team IDs'            ./harness "$TOY"
-run_case "hardened rejects wheel .so (LV)"      'different Team IDs'            ./harness "$SO"
+if (( SIP_ON )); then
+    run_case "hardened rejects local dylib (LV)"  'different Team IDs'          ./harness "$TOY"
+    run_case "hardened rejects wheel .so (LV)"    'different Team IDs'          ./harness "$SO"
+else
+    observe_case "hardened + local dylib"  ./harness "$TOY"
+    observe_case "hardened + wheel .so"    ./harness "$SO"
+fi
 
 echo; echo "== Row 3: hardened + disable-library-validation (control) =="
 codesign -f -s - -o runtime --entitlements "$HERE/disable-lv.plist" harness
@@ -74,7 +94,7 @@ run_case "disable-LV loads local dylib"         '^DLOPEN_OK'                    
 run_case "disable-LV re-admits wheel .so"       'symbol not found'              ./harness "$SO"
 
 echo; echo "== Row 4: quarantined libraries (Gatekeeper layer — issue's verbatim error) =="
-if [[ "$GK" == *enabled* ]]; then
+if (( SIP_ON )) && [[ "$GK" == *enabled* ]]; then
     cp libtoy.dylib libtoy_q.dylib; cp ext.so ext_q.so
     xattr -w com.apple.quarantine "0083;00000000;flet-lv-test;" libtoy_q.dylib
     xattr -w com.apple.quarantine "0083;00000000;flet-lv-test;" ext_q.so
@@ -84,13 +104,15 @@ if [[ "$GK" == *enabled* ]]; then
     codesign -f -s - harness   # no hardened runtime at all
     run_case "quarantine blocks even plain process"   'disallowed by system policy' ./harness "$WORK/libtoy_q.dylib"
 else
-    SKIP=3; echo "Gatekeeper assessments disabled on this machine — skipping Row 4"
-    ROWS+=$'\n'"| - | Row 4 (quarantine) | - | ⏭️ SKIPPED (spctl disabled) |"
+    SKIP=$((SKIP+3)); echo "SIP or Gatekeeper not fully enabled — skipping Row 4 assertions"
+    ROWS+=$'\n'"| - | Row 4 (quarantine) | - | ⏭️ SKIPPED (needs SIP + spctl enabled) |"
 fi
 
-echo; echo "== summary: $PASS passed, $FAIL failed, $SKIP skipped =="
+echo; echo "== summary: $PASS passed, $FAIL failed, $SKIP skipped/observed (SIP $( ((SIP_ON)) && echo on || echo OFF )) =="
 if [[ -n "${GITHUB_STEP_SUMMARY:-}" ]]; then
-    { echo "## flet#4543 enforcement matrix — $PASS passed, $FAIL failed, $SKIP skipped"
+    { echo "## flet#4543 enforcement matrix — $PASS passed, $FAIL failed, $SKIP skipped/observed"
+      echo
+      (( SIP_ON )) || echo "> ⚠️ **SIP is disabled on this runner** — library validation and Gatekeeper are not enforced, so enforcement rows are informational only. Run on a SIP-enabled Mac for the full repro."
       echo; echo "$ROWS"; } >> "$GITHUB_STEP_SUMMARY"
 fi
 exit "$FAIL"

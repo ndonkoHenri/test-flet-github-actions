@@ -1,9 +1,15 @@
 name: lv-repro-4543
 
 # Reproduces flet-dev/flet#4543 ("library load disallowed by system policy")
-# on a stock GitHub macOS runner with zero Apple Developer secrets:
-# ad-hoc signing + hardened runtime is enough to trigger the same library
-# validation that TestFlight/App Store builds are subject to.
+# with zero Apple Developer secrets: ad-hoc signing + hardened runtime is
+# enough to trigger the same library validation that TestFlight/App Store
+# builds are subject to.
+#
+# CAVEAT (verified empirically 2026-07-21): GitHub-hosted macOS runners ship
+# with SIP DISABLED, which turns off AMFI library validation and Gatekeeper
+# dylib checks — so on hosted runners the enforcement rows run unasserted
+# (informational). Full assertions require a SIP-enabled Mac, e.g. a
+# self-hosted runner. The script self-detects this via `csrutil status`.
 
 on:
   push:
